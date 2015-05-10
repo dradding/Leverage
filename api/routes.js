@@ -2,10 +2,16 @@
 
 module.exports = function(app, passport) {
 
-  var users = require('./controllers/users');
+  var users = require('./controllers/users'),
+    profiles = require('./controllers/profiles');
 
   // Example API call with isLoggedIn middleware
   app.get('/api/users', isLoggedIn, users.all);
+
+  app.post('/api/saveprofile', profiles.add);
+  app.post('/api/get/profile', profiles.get);
+
+  app.get('/api/profiles', profiles.all);
 
   // Sign up route
   app.post('/api/signup', passport.authenticate('local-signup', {

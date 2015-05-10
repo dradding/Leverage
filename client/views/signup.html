@@ -1,0 +1,45 @@
+<div class="container">
+
+  <form class="jumbotron" method="post" ng-submit="registerUser()">
+
+    <div class="form-group">
+      <label for="nm">Full name:</label>
+      <input type="text" required class="form-control" id="nm" placeholder="Ful Name" ng-model="name">
+    </div>
+
+    <div class="form-group">
+      <label>Company name:</label> <br>
+
+      <select ng-model="companySelected" data-ng-options="company.name for company in companyOptions" ng-change="changed()" ></select>
+
+    </div>
+
+
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" required class="form-control" id="email" placeholder="Enter email" ng-model="email">
+    </div>
+
+    <div class="form-group">
+      <label for="pwd">Password:</label>
+      <input type="password" required class="form-control" id="pwd" placeholder="Enter password" ng-model="password">
+    </div>
+
+    <div class="checkbox">
+      <label><input type="checkbox" required ng-model="tnc"> Agree to Terms & Conditions</label>
+    </div>
+
+    <div class="btn-toolbar">
+
+      <div class="btn-group">
+        <button type="Register" class="btn btn-default">Register</button>
+      </div>
+
+      <div coass="btn-group">
+        <button type="button" class="btn btn-default pull-right" ng-click="cancel()">Cancel</button>
+      </div>
+
+    </div>
+  </form>
+
+</div>
