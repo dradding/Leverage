@@ -7,7 +7,7 @@ var app = angular.module('MyApp', [uiRoute]);
 
 require('./services/Auth').inject(app);
 require('./services/profiles/UserProfile').inject(app);
-require('./services/profiles/Profile').inject(app);
+require('./services/profiles/CompanyProfile').inject(app);
 require('./directives/ExampleDirective').inject(app);
 
 app.config(function ($locationProvider, $stateProvider) {

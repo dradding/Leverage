@@ -3,7 +3,8 @@
 module.exports = function(app, passport) {
 
   var users = require('./controllers/users'),
-    profiles = require('./controllers/profiles');
+    profiles = require('./controllers/profiles'),
+    company = require('./controllers/companyProfile');
 
   // Example API call with isLoggedIn middleware
   app.get('/api/users', isLoggedIn, users.all);
@@ -25,6 +26,12 @@ module.exports = function(app, passport) {
   app.get('/api/signup/success', function(req, res) {
     res.send(200, {user: req.user});
   });
+
+  //company profiles
+  app.get('/api/get/all/companies', company.all);
+  app.post('/api/add/company', company.addCompany);
+  app.get('/api/add/company/user', company.addUser);
+
 
   // Log in route
   app.post('/api/login', passport.authenticate('local-login', {

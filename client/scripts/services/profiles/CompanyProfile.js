@@ -1,71 +1,89 @@
 exports.inject = function (app) {
-
   app.factory('CompanyProfile', exports.factory);
   return exports.factory;
 };
 
 exports.factory = function ($http) {
 
-  var profile = {},
-    _urls = {
-      'loadl': '',
-      'save': ''
-    };
+var _profile = {},
 
-  return {
+  _urls = {
+    addProfile: '/api/add/company'
+  },
 
-    'loadProfile': function loadProfile() {
+  generateCompanyRecord = function generateCompanyRecord() {
 
-    },
-    'saveProfile': function saveProfile(prof) {
+    $http.post(_urls.addProfile, JSON.stringify(_profile)).
 
-      var newProfile = {
+      success(function (data, status, headers, config) {
 
-        'general': {
-          'companyName': '',
-          'phoneNumber': [],
-          'faxNumber': [],
-          'website': '',
-          'emails': [],
-          'address': ''
-        },
-        'media': {
-          'photos': [],
-          'videos': [],
-          'socialMedia': [],
-          'other': []
-        },
-        'productMaterial': {
-          'ledCatalogs': [],
-          'lampCatalogs': [],
-          'productCheckBox': [],
-          'others': []
-        },
-        'additional': {
-          'factorySize': 0,
-          'employeeNumber': 0,
-          'establishmentYear': 0,
-          'revenue': '',
-          'dbInformation': '',
-          'DUNS': ''
-        },
-        'accounts': {
-          'adminIds': [],
-          'employeeIds': []
-        },
-        _id:''
-      };
+        if (data.error || data === null) {
+          console.log("Error occured or data is null");
+          console.log('Error', data.error);
+        }
 
-      //Make call to save profile
+        console.log('Profile stored to database successfully');
+        console.log('data', data);
+        console.log('status', status);
+      }).
+      error(function (data, status, headers, config) {
 
-    },
-    'getProfile': function getProfile() {
+        console.log('Error occured while storing profile to database');
+        console.log('data', data);
+        console.log('status', status);
 
-      return profile;
+      });
 
-    }
 
   };
 
+  return {
+    'init': function init(profile) {
+
+      _profile = JSON.parse(JSON.stringify(profile));
+
+      generateCompanyRecord();
+
+    }
+  }
 
 };
+
+
+
+//{
+//
+//  'general': {
+//  'companyName': '',
+//    'phoneNumber': [],
+//    'faxNumber': [],
+//    'website': '',
+//    'emails': [],
+//    'address': ''
+//},
+//  'media': {
+//  'photos': [],
+//    'videos': [],
+//    'socialMedia': [],
+//    'other': []
+//},
+//  'productMaterial': {
+//  'ledCatalogs': [],
+//    'lampCatalogs': [],
+//    'productCheckBox': [],
+//    'others': []
+//},
+//  'additional': {
+//  'factorySize': 0,
+//    'employeeNumber': 0,
+//    'establishmentYear': 0,
+//    'revenue': '',
+//    'dbInformation': '',
+//    'DUNS': ''
+//},
+//  'accounts': {
+//  'adminIds': [],
+//    'employeeIds': []
+//},
+//  _id:''
+//}

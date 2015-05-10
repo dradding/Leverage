@@ -3,7 +3,7 @@ exports.inject = function(app) {
   return exports.controller;
 };
 
-exports.controller = function($scope, Auth, UserProfile) {
+exports.controller = function($scope, Auth, UserProfile, CompanyProfile) {
 
   $scope.companyOptions = [
     {'name': 'Company1', id:1},
@@ -49,9 +49,15 @@ exports.controller = function($scope, Auth, UserProfile) {
           '_id': data.user._id
         };
 
+        var u = {
+          'name': $scope.companySelected.name,
+          'type': 'Admin',
+          '_id': data.user._id
+        };
 
         UserProfile.init(profile);
 
+        CompanyProfile.init(u);
         //UserProfile.createProfile(user);
         //
         //UserProfile.loadProfile(user._id);

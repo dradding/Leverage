@@ -8,6 +8,9 @@ exports.all = function (req, res) {
     if (err) {
       res.send(400);
     }
+
+    console.log('Search worked');
+
     res.send(profiles);
   });
 };
@@ -21,28 +24,38 @@ exports.addCompany = function (req, res) {
   //    normal: [String]
   //}
 
-  Company.find({name: req.body.name}, function(err, profile) {
+  console.log('YOU MADE IT TO ADD COMPANY');
+
+  Company.find({name: req.body.name}, function (err, profile) {
     if (err) {
+      console.log('Err');
       res.send(400);
     }
+
     console.log('profile', profile);
-  });
 
-  var company = new Company({
-    name: req.body.name,
-    users: {
-      admin: [],
-      normal: []
-    }
-  });
+    console.log('Profile length', profile.length);
 
-  company.save(function (err) {
-    if (err) {
-      console.log('Error saving prof');
-      res.send(400);
+    if (profile.length === 0) {
+
+      var company = new Company({
+        name: req.body.name
+      });
+
+      console.log('Company to be stored.', company);
+
+      company.save(function (err) {
+
+        if (err) {
+          console.log('Error saving..');
+          res.send(400);
+        }
+      });
+    } else {
+      console.log('Company already exists');
     }
-    console.log('Successfully added a prof');
-    res.send(200);
+
+    res.send(200).end();
   });
 
 };
@@ -63,12 +76,18 @@ exports.addUser = function (req, res) {
   //  console.log('affected rows %d', affected);
   //});
 
-  var user = req.body.user;
+  var user = {
+    company: 'Company1',
+    type: 'Admin',
+    id: 'asdasd'
+  };
+
+  console.log('Call was made');
 
   if (user.type === 'Admin') {
 
     Company.findOneAndUpdate({name: user.company},
-      {$push: {users: {admin: user.id}}},
+      {$push: {'users.admin': user.id}},
       {safe: true, upsert: true},
       function (err, model) {
         console.log(err);
